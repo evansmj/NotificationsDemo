@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/willowtree_teal</color>
+    <color name="colorPrimaryDark">@color/willowtree_blue</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="willowtree_blue">#308390</color>
+    <color name="willowtree_teal">#74CAC4</color>
+    <color name="willowtree_text">#002B32</color>
+</resources>

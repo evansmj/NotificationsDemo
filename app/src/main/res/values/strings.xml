@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NotificationsDemo</string>
+    <string name="fire_direct_reply_notification">Fire Direct Reply Notification</string>
+    <string name="reply_label">Reply</string>
+    <string name="handle_reply_activity">Activity to handle the reply.</string>
+    <string name="response_sent">Response Sent.</string>
+    <string name="fire_bundled_inbox_notifications">Fire Bundled InboxStyle Notifications</string>
+    <string name="fire_big_text_style_notification">Fire BigTextStyle Notification</string>
+    <string name="fire_big_picture_style_notification">Fire BigPictureStyle Notification</string>
+    <string name="fire_determinate_progress_bar_notification">Fire Determinate ProgressBar Notification</string>
+    <string name="fire_indeterminate_progress_bar_notification">Fire Indeterminate ProgressBar Notification</string>
+    <string name="attribution">Made by WillowTree, Inc</string>
+    <string name="attribution_url">https://www.willowtreeapps.com</string>
+</resources>
