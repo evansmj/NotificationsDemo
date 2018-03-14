@@ -25,7 +25,12 @@ public class DeterminateProgressBarService extends IntentService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+        if (notificationManager == null) {
+            return;
+        }
+
+        NotificationCompat.Builder notification =
+                new NotificationCompat.Builder(this, MainActivity.ID_DEFAULT_CHANNEL)
                 .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setContentTitle("ProgressBarTitle")
                 .setContentText("ProgressBarText")

@@ -62,6 +62,15 @@
         android:text="@string/fire_indeterminate_progress_bar_notification"
         android:textAllCaps="false"/>
 
+    <Button
+        android:id="@+id/notification_channels_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/indeterminate_progress_bar_button"
+        android:layout_marginTop="8dp"
+        android:text="@string/fire_notification_channels"
+        android:textAllCaps="false"/>
+
     <ImageView
         android:id="@+id/wt_attribution"
         android:layout_width="wrap_content"

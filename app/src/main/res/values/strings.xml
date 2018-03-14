@@ -9,6 +9,7 @@
     <string name="fire_big_picture_style_notification">Fire BigPictureStyle Notification</string>
     <string name="fire_determinate_progress_bar_notification">Fire Determinate ProgressBar Notification</string>
     <string name="fire_indeterminate_progress_bar_notification">Fire Indeterminate ProgressBar Notification</string>
+    <string name="fire_notification_channels">Fire Notification Channels</string>
     <string name="attribution">Made by WillowTree, Inc</string>
     <string name="attribution_url">https://www.willowtreeapps.com</string>
 </resources>
