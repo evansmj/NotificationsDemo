@@ -24,11 +24,17 @@ public class IndeterminateProgressBarService extends IntentService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+        if (notificationManager == null) {
+            return;
+        }
+
+        NotificationCompat.Builder notification =
+                new NotificationCompat.Builder(this, MainActivity.ID_DEFAULT_CHANNEL)
                 .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setContentTitle("ProgressBarTitle")
                 .setContentText("ProgressBarText")
-                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
+                .setColorized(true); //Added in Android O
 
         int progress = 0;
         notification.setProgress(0, 0, true);

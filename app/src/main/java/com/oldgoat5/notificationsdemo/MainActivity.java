@@ -1,23 +1,32 @@
 package com.oldgoat5.notificationsdemo;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String ID_DEFAULT_CHANNEL = "id_default_channel";
     public static final String KEY_USERS_REPLY = "key_users_reply";
+
     public static final int ID_DIRECT_REPLY_NOTIFICATION = 1000;
 
     @Override
@@ -26,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         instantiateResources();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setDefaultNotificationChannel();
+        }
     }
 
     /*****************************************************************
@@ -39,11 +52,18 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
+        if (notificationManager == null) {
+            return;
+        }
+
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(), 0, intent, 0);
 
-        Notification notification0 = new NotificationCompat.Builder(this)
+        //Caution: If you target Android 8.0 (API level 26) and post a notification without
+        // specifying a valid notifications channel, the notification fails to post and the
+        // system logs an error.
+        Notification notification0 = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setGroup(KEY_NOTIFICATION_GROUP)
                 .setGroupSummary(true)
                 .setContentIntent(pendingIntent)
@@ -64,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager.notify(0, notification0);
 
-        Notification notification1 = new NotificationCompat.Builder(this)
+        Notification notification1 = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setGroup(KEY_NOTIFICATION_GROUP)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
@@ -74,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager.notify(1, notification1);
 
-        Notification notification2 = new NotificationCompat.Builder(this)
+        Notification notification2 = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setGroup(KEY_NOTIFICATION_GROUP)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
@@ -84,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager.notify(2, notification2);
 
-        Notification notification3 = new NotificationCompat.Builder(this)
+        Notification notification3 = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setGroup(KEY_NOTIFICATION_GROUP)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
@@ -94,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager.notify(3, notification3);
 
-        Notification notification4 = new NotificationCompat.Builder(this)
+        Notification notification4 = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setGroup(KEY_NOTIFICATION_GROUP)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
@@ -132,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
+        if (notificationManager == null) {
+            return;
+        }
+
         Intent serviceIntent = new Intent(this, ReplyService.class);
         PendingIntent servicePendingIntent = PendingIntent.getService(
                 this, 0, serviceIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -155,7 +179,11 @@ public class MainActivity extends AppCompatActivity {
                 .addRemoteInput(remoteInput)
                 .build();
 
-        Notification directReplyNotification = new NotificationCompat.Builder(this)
+        //Caution: If you target Android 8.0 (API level 26) and post a notification without
+        // specifying a valid notifications channel, the notification fails to post and the
+        // system logs an error.
+        Notification directReplyNotification =
+                new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setAutoCancel(true)
                 .setContentIntent(activityPendingIntent)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
@@ -177,7 +205,14 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        Notification notification = new NotificationCompat.Builder(this)
+        if (notificationManager == null) {
+            return;
+        }
+
+        //Caution: If you target Android 8.0 (API level 26) and post a notification without
+        // specifying a valid notifications channel, the notification fails to post and the
+        // system logs an error.
+        Notification notification = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -206,7 +241,14 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        Notification notification = new NotificationCompat.Builder(this)
+        if (notificationManager == null) {
+            return;
+        }
+
+        //Caution: If you target Android 8.0 (API level 26) and post a notification without
+        // specifying a valid notifications channel, the notification fails to post and the
+        // system logs an error.
+        Notification notification = new NotificationCompat.Builder(this, ID_DEFAULT_CHANNEL)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.ic_menu_gallery)
                 .setStyle(new NotificationCompat.BigPictureStyle()
@@ -242,37 +284,128 @@ public class MainActivity extends AppCompatActivity {
         startService(new Intent(getApplicationContext(), IndeterminateProgressBarService.class));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void notificationChannels() {
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (notificationManager == null) {
+            return;
+        }
+
+        String ID_DAILY_CHANNEL = "id_channel_daily";
+        String dailyChannelName = "Daily Channel Name";
+        String dailyChannelDescription = "Daily Channel Description";
+
+        //Set up daily channel
+        NotificationChannel dailyChannel = new NotificationChannel(
+                ID_DAILY_CHANNEL,
+                dailyChannelName,
+                NotificationManager.IMPORTANCE_HIGH);
+
+        dailyChannel.setDescription(dailyChannelDescription);
+        dailyChannel.enableLights(true);
+        dailyChannel.setLightColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        dailyChannel.enableVibration(true);
+        dailyChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+
+        String ID_WEEKLY_CHANNEL = "id_channel_weekly";
+        String weeklyChannelName = "Weekly Channel Name";
+        String weeklyChannelDescription = " Weekly Channel Description";
+
+        //Set up weekly channel
+        NotificationChannel weeklyChannel = new NotificationChannel(
+                ID_WEEKLY_CHANNEL,
+                weeklyChannelName,
+                NotificationManager.IMPORTANCE_LOW);
+
+        weeklyChannel.setDescription(weeklyChannelDescription);
+        weeklyChannel.enableLights(false);
+        weeklyChannel.enableVibration(false);
+        weeklyChannel.setShowBadge(false);
+
+        //Create channels
+        List<NotificationChannel> notificationChannels = new ArrayList<>();
+
+        notificationChannels.add(dailyChannel);
+        notificationChannels.add(weeklyChannel);
+
+        notificationManager.createNotificationChannels(notificationChannels);
+
+        //Create sample notifications
+        Notification dailyNotification = new NotificationCompat.Builder(this, ID_DAILY_CHANNEL)
+                .setContentTitle("Daily Channel Title")
+                .setContentText("Daily Channel Text")
+                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setTimeoutAfter(5000) //Added in Android O
+                .build();
+
+        Notification weeklyNotification = new NotificationCompat.Builder(this, ID_WEEKLY_CHANNEL)
+                .setContentTitle("Weekly Channel Title")
+                .setContentText("Weekly Channel Text")
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .build();
+
+        notificationManager.notify(0, dailyNotification);
+        notificationManager.notify(1, weeklyNotification);
+    }
+
     private void instantiateResources() {
-        Button directReplyNotificationButton = (Button)
-                findViewById(R.id.direct_reply_notification_button);
+        Button directReplyNotificationButton = findViewById(R.id.direct_reply_notification_button);
         directReplyNotificationButton.setOnClickListener(v -> directReplyNotification());
 
-        Button bundledInboxStyleButton = (Button)
-                findViewById(R.id.bundled_inbox_style_button);
+        Button bundledInboxStyleButton = findViewById(R.id.bundled_inbox_style_button);
         bundledInboxStyleButton.setOnClickListener(v -> bundledInboxStyleNotifications());
 
-        Button bigTextStyleButton = (Button)
-                findViewById(R.id.big_text_style_button);
+        Button bigTextStyleButton = findViewById(R.id.big_text_style_button);
         bigTextStyleButton.setOnClickListener(v -> bigTextStyleNotification());
 
-        Button bigPictureStyleButton = (Button)
-                findViewById(R.id.big_picture_style_button);
+        Button bigPictureStyleButton = findViewById(R.id.big_picture_style_button);
         bigPictureStyleButton.setOnClickListener(v -> bigPictureStyleNotification());
 
-        Button progressBarDeterminateButton = (Button)
-                findViewById(R.id.determinate_progress_bar_button);
+        Button progressBarDeterminateButton = findViewById(R.id.determinate_progress_bar_button);
         progressBarDeterminateButton.setOnClickListener(
                 v -> determinateProgressBarNotification());
 
-        Button progressBarIndeterminateButton = (Button)
+        Button progressBarIndeterminateButton =
                 findViewById(R.id.indeterminate_progress_bar_button);
         progressBarIndeterminateButton.setOnClickListener(
                 v -> indeterminateProgressBarNotification());
 
-        ImageView attributionImageView = (ImageView) findViewById(R.id.wt_attribution);
+        Button notificationChannelsButton = findViewById(R.id.notification_channels_button);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannelsButton.setOnClickListener(v -> notificationChannels());
+        } else {
+            Toast.makeText(getApplicationContext(), "Requires Android Oreo", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        ImageView attributionImageView = findViewById(R.id.wt_attribution);
         attributionImageView.setOnClickListener(l ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
                         getString(R.string.attribution_url)))));
+    }
+
+    /*****************************************************************
+     * If our app targets API 26, we must specify notification channels
+     * or they will fail to post.
+     *****************************************************************/
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setDefaultNotificationChannel() {
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (notificationManager == null) {
+            return;
+        }
+
+        NotificationChannel defaultChannel = new NotificationChannel(
+                ID_DEFAULT_CHANNEL,
+                "Default Channel",
+                NotificationManager.IMPORTANCE_DEFAULT);
+
+        notificationManager.createNotificationChannel(defaultChannel);
     }
 
     private boolean isNougat() {
